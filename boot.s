@@ -20,7 +20,7 @@ In 86x a page is defined as 4KB or 4096 bytes. If a value is a multiple of 4096,
 
 .align 16 
 
-.long MLB /*These .long writes a 4 byte file into our output*/
+.long MLB /*These .long writes a 4 byte value into our output*/
 
 .long FLAGS
 
@@ -59,11 +59,14 @@ stack_top:
 This function has return as the bootloader will be gone. */
 
 /* Our bootloader will loads us into a 32-bit protected mode. This means that paging, interupts are disabled. */
-/*NOTE: Paging is the method in which modern operating systems manage memory. Memory is split into a pre-defined size blocks
-        Interuptsw*/
+/*NOTE: Paging is the method in which modern operating systems manage memory. Memory is split into a pre-defined size blocks:
+            Pages: Blocks of programs (virtual memory)
+            Frames: Blocks of physical memory
+        Our OS will map the frames to pages
+        Interupts:*/
 _start:
 
-    mov %stack_top, %esp
+    mov %stack_top,  # esp -> extended stack pointer
 
     call kernal_main
 

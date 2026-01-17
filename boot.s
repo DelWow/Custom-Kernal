@@ -36,7 +36,7 @@ In 86x a page is defined as 4KB or 4096 bytes. If a value is a multiple of 4096,
 
 stack_bottom:
 
-.skip_bottom 16384 #16 KiB
+    .skip 16384 #16 KiB
 
 stack_top:
 

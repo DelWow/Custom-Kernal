@@ -32,7 +32,7 @@ In 86x a page is defined as 4KB or 4096 bytes. If a value is a multiple of 4096,
 
 .section .bss
 .align 16
-stack_bottom
+stack_bottom:
 .skip_bottom 16384 #16 KiB
 stack_top:
 

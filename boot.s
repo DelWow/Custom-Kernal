@@ -58,20 +58,33 @@ stack_top:
 /* Our linker script specifies _start as the entry point to our kernal. Our bootloader will go to this posistion once our kernal has been loaded.
 This function has return as the bootloader will be gone. */
 
-/* Our bootloader will loads us into a 32-bit protected mode. This means that paging, interupts are disabled. */
+/* Our bootloader will loads us into a 32-bit protected mode. This means that paging, interupts are disabled. Our kernal will fully control our CPU*/
 /*NOTE: Paging is the method in which modern operating systems manage memory. Memory is split into a pre-defined size blocks:
             Pages: Blocks of programs (virtual memory)
             Frames: Blocks of physical memory
         Our OS will map the frames to pages
-        Interupts:*/
+        Interupts: Signal from our software that will tell the CPU to transfer control to interupt handler to a specific event. 
+*/
 _start:
 
     mov %stack_top, %esp # esp -> extended stack pointer
 
+    /* To set up our stack, we can define our stack pointer to the top of our stack (downwards initialized).
+    This is needed because C cannot function without a stack */
+
+    /*  */
     call kernal_main
 
+    /* Once our system has nothing more to do, we can put our computer into a infnite loop. We do this by:
+    Disabling interrupts using cli (clear interrupt enable in eflags). Disabled by default by our bootloader
+    Wait for the next interrupt using hlt (halt instruction). Since they it's disabled, this will lock our computer up.
+    Finally, jump to our hlt instruction incase of any unavoidable interrupt occuring./
+     */
     cli
 1:  hlt
     jmp 1b
 
+    
 .size _start, . - _start
+
+/* We can set the size of our _start to . minus it's start so it can be used during call tracing or debugging. */

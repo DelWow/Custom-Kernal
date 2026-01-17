@@ -20,7 +20,7 @@ In 86x a page is defined as 4KB or 4096 bytes. If a value is a multiple of 4096,
 
 .align 16 
 
-.long MLB
+.long MLB /*These .long writes a 4 byte file into our output*/
 
 .long FLAGS
 
@@ -44,7 +44,7 @@ stack_top:
 /* Our stack pointer:
     - Downward initialized
     - Size of 16384 bytes
-    - 16 bits or 4 byte alignment
+    - 16 bytes alignment
     - Stack is in its own section, it is marked as NOBITS (zero-initialized memory)
 */
 # NOTE: all stacks on x86 are downwards initialized and must be aligned on 16 bytes
